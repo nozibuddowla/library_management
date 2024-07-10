@@ -1,0 +1,40 @@
+<mxfile host="app.diagrams.net" modified="2024-07-10T18:57:25.474Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36" etag="Jyd6_ZNkXlsDXM9VHNQh" version="24.6.4" type="github">
+  <diagram name="Page-1" id="NnoEKTsp6hTX_0NLdZJ9">
+    <mxGraphModel dx="757" dy="378" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="zGHH1KCtP3d0WoRRGc_Q-1" value="main.py&lt;div&gt;&lt;hr&gt;- Display menu&lt;/div&gt;&lt;div&gt;&lt;span class=&quot;hljs-operator&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;hljs-keyword&quot;&gt;User&lt;/span&gt; input&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="120" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="zGHH1KCtP3d0WoRRGc_Q-3" value="book.py&lt;div&gt;&lt;hr&gt;- Book class&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="240" y="40" width="120" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="zGHH1KCtP3d0WoRRGc_Q-4" value="file_manager.py&lt;div&gt;&lt;hr&gt;- Save to file &lt;/div&gt;&lt;div&gt;&lt;span class=&quot;hljs-operator&quot;&gt;-&lt;/span&gt; Load &lt;span class=&quot;hljs-keyword&quot;&gt;from&lt;/span&gt; file&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="440" y="40" width="120" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="zGHH1KCtP3d0WoRRGc_Q-5" value="library.py&lt;div&gt;&lt;hr&gt;- Library class&lt;/div&gt;&lt;div&gt;&lt;span class=&quot;hljs-operator&quot;&gt;-&lt;/span&gt;&amp;nbsp;Book management&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="240" y="240" width="120" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="zGHH1KCtP3d0WoRRGc_Q-6" value="" style="endArrow=classic;startArrow=classic;html=1;rounded=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;strokeColor=#FFFFFF;" edge="1" parent="1" source="zGHH1KCtP3d0WoRRGc_Q-3" target="zGHH1KCtP3d0WoRRGc_Q-1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="170" y="140" as="sourcePoint" />
+            <mxPoint x="220" y="90" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zGHH1KCtP3d0WoRRGc_Q-8" value="" style="endArrow=classic;startArrow=classic;html=1;rounded=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;strokeColor=#FFFFFF;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="440" y="99.5" as="sourcePoint" />
+            <mxPoint x="360" y="99.5" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zGHH1KCtP3d0WoRRGc_Q-9" value="" style="endArrow=classic;startArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#FFFFFF;" edge="1" parent="1" source="zGHH1KCtP3d0WoRRGc_Q-3" target="zGHH1KCtP3d0WoRRGc_Q-5">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="340" y="210" as="sourcePoint" />
+            <mxPoint x="300" y="230" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
