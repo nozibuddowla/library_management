@@ -8,18 +8,8 @@ class Book:
         self.quantity = quantity
 
     def __str__(self):
-        if len(self.title) > 20:
-            title = (self.title[:20] + '...')
-        else:
-            title = self.title
-
         authors_str = ", ".join(self.authors)
-        if len(authors_str) > 25:
-            authors = authors_str[:25] + "..."
-        else:
-            authors = authors_str
-
-        return f"Title: {title}\nAuthors: {authors}\nISBN: {self.isbn}\nPublishing Year: {self.publishing_year}\nPrice: ${self.price:.2f}\nQuantity: {self.quantity}"
+        return f"Title: {self.title}\nAuthors: {authors_str}\nISBN: {self.isbn}\nPublishing Year: {self.publishing_year}\nPrice: ${self.price:.2f}\nQuantity: {self.quantity}"
     
     def to_dict(self):
         return {

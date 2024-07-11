@@ -11,7 +11,7 @@ class Library:
 
     def save_books(self, filename='books.json'):
         with open(filename, 'w')as file:
-            json.dump([book.to_dict() for book in self.books], file, indent=4)
+            json.dump([book.to_dict() for book in self.books], file)
 
     def view_books(self):
         if not self.books:
@@ -19,29 +19,36 @@ class Library:
             return
         else:
             print("\nList of Books:")
-            print("+----------------------+-------------------------+---------------+------------+")
-            print("| Title                | Authors                 | ISBN          | Year       |")
-            print("+----------------------+-------------------------+---------------+------------+")
+            self.display_books(self.books)
+    
+    def search_books(self, search_term):
+        results = []
+        for book in self.books:
+            if search_term.lower() in book.title.lower() or search_term in book.isbn:
+                results.append(book)
+        return results
+    
+    def display_books(self, books):
+        print("+----------------------+-------------------------+----------------+------------+")
+        print("| Title                | Authors                 | ISBN           | Year       |")
+        print("+----------------------+-------------------------+----------------+------------+")
 
-            for book in self.books:
-
-                if len(book.title) > 20:
-                    title = (book.title[:20] + '...')
-                else:
-                    title = book.title.ljust(20)
+        for book in books:
+            if len(book.title) > 20:
+                title = (book.title[:20] + '...')
+            else:
+                title = book.title.ljust(20)
                 
-                if len(", ".join(book.authors)) > 23:
-                    authors = (", ".join(book.authors)[:23] + '...') 
-                else:
-                    authors = ", ".join(book.authors).ljust(23)
+            if len(", ".join(book.authors)) > 23:
+                authors = (", ".join(book.authors)[:23] + '...') 
+            else:
+                authors = ", ".join(book.authors).ljust(23)
 
-                isbn = book.isbn.ljust(13)
-                year = str(book.publishing_year).ljust(10)
+            isbn = book.isbn.ljust(13)
+            year = str(book.publishing_year).ljust(10)
 
-                print(f"| {title} | {authors} | {isbn} | {year} |")
-                print("+----------------------+-------------------------+---------------+------------+")
-            # for book in self.books:
-            #     print(book)
+            print(f"| {title} | {authors} | {isbn} | {year} |")
+            print("+----------------------+-------------------------+----------------+------------+")
     
     def load_books(self):
         try:
