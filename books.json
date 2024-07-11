@@ -18,5 +18,15 @@
         "year": 2014,
         "price": 798.0,
         "quantity": 25
+    },
+    {
+        "title": "It Ends With Us",
+        "authors": [
+            "Colleen Hoover"
+        ],
+        "isbn": "978-1501110368",
+        "year": 2016,
+        "price": 1078.0,
+        "quantity": 1
     }
 ]

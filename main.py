@@ -4,7 +4,8 @@ from book import Book
 def display_menu():
     print("\nLibrary Management System")
     print("1. Add a book")
-    print("2. Exit")
+    print("2. View all books")
+    print("3. Exit")
 
 def add_books(library):
     title = input("Enter title: ").strip()
@@ -19,6 +20,7 @@ def add_books(library):
 
 def main():
     library = Library()
+    library.load_books()
 
     while True:
         display_menu()
@@ -28,6 +30,8 @@ def main():
             case '1':
                 add_books(library)
             case '2':
+                library.view_books()
+            case '3':
                 break
             case _:
                 print("Invalid choice. Please try again.")
