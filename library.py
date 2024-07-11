@@ -28,6 +28,21 @@ class Library:
                 results.append(book)
         return results
     
+    def search_books_by_author(self, search_term):
+        results = []
+        for book in self.books:
+            if search_term.lower() in book.authors.lower():
+                results.append(book)
+        return results
+    
+    def search_books_by_author(self, search_term):
+        results = []
+        for book in self.books:
+            for author in book.authors:
+                if search_term.lower() in author.lower():
+                    results.append(book)
+        return results
+    
     def display_books(self, books):
         print("+----------------------+-------------------------+----------------+------------+")
         print("| Title                | Authors                 | ISBN           | Year       |")
@@ -44,7 +59,7 @@ class Library:
             else:
                 authors = ", ".join(book.authors).ljust(23)
 
-            isbn = book.isbn.ljust(13)
+            isbn = book.isbn.rjust(13)
             year = str(book.publishing_year).ljust(10)
 
             print(f"| {title} | {authors} | {isbn} | {year} |")
