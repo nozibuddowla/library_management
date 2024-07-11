@@ -1,1 +1,2 @@
-# library_management
+# CLI-based Library Management System
+

@@ -1,0 +1,22 @@
+[
+    {
+        "title": "The Revenge List",
+        "authors": [
+            "Hannah Mary McKinnon"
+        ],
+        "isbn": "978-1867286318",
+        "year": 2023,
+        "price": 2500.0,
+        "quantity": 10
+    },
+    {
+        "title": "The Alchemist",
+        "authors": [
+            "Paulo Coelho"
+        ],
+        "isbn": "978-0062315007",
+        "year": 2014,
+        "price": 798.0,
+        "quantity": 25
+    }
+]
