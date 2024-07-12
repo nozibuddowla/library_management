@@ -43,6 +43,10 @@ class Library:
                     results.append(book)
         return results
     
+    def remove_book(self, book):
+        self.books.remove(book)
+        self.save_books()
+    
     def display_books(self, books):
         print("+----------------------+-------------------------+----------------+------------+")
         print("| Title                | Authors                 | ISBN           | Year       |")

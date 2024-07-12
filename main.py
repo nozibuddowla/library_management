@@ -7,7 +7,8 @@ def display_menu():
     print("2. View all books")
     print("3. Search books by title or ISBN")
     print("4. Search books by author")
-    print("5. Exit")
+    print("5. Remove a book")
+    print("6. Exit")
 
 def add_books(library):
     title = input("Enter title: ").strip()
@@ -39,6 +40,21 @@ def search_books_by_author(library):
     else:
         print(f"No books found matching author '{search_term}'.")
 
+def remove_book(library):
+    search_term =  input('Enter Book title or ISBN to remove: ').strip()
+    results = library.search_books(search_term)
+    if results:
+        print(f"\nSearch Results for '{search_term}':")
+        library.display_books(results)
+        book_index = int(input("Enter the number of the book you want to remove: ").strip()) - 1
+        if 0 <= book_index:
+            library.remove_book(results[book_index])
+            print("Book removed successfully!")
+        else:
+            print("Invalid selection. Please try again.")
+    else:
+        print(f"No books found matching '{search_term}'.")
+
 def main():
     library = Library()
     library.load_books()
@@ -57,6 +73,8 @@ def main():
             case '4':
                 search_books_by_author(library)
             case '5':
+                remove_book(library)
+            case '6':
                 break
             case _:
                 print("Invalid choice. Please try again.")
