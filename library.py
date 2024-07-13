@@ -37,7 +37,7 @@ class Library:
     def search_books(self, search_term):
         results = []
         for book in self.books:
-            if search_term.lower() in book.title.lower() or search_term in book.isbn:
+            if any(search_term.lower() in author.lower() for author in book.authors) or search_term in book.isbn:
                 results.append(book)
         return results
     
@@ -64,20 +64,27 @@ class Library:
         if results:
             print(f"\nSearch Results for '{search_term}':")
             self.display_books(results)
-            book_to_lend = results[0]
-            if book_to_lend.quantity > 0:
-                borrower_name = input("Enter your name for borrowing the book: ").strip()
-                book_to_lend.quantity -= 1
-                self.save_books()
-                self.lend_log.append({
-                    "title": book_to_lend.title,
-                    "authors": book_to_lend.authors,
-                    "isbn": book_to_lend.isbn,
-                    "borrower": borrower_name
-                })
-                print(f"Book '{book_to_lend.title}' lent successfully! Remaining quantity: {book_to_lend.quantity}")
-            else:
-                print("Not enough books available to lend.")
+            try:
+                book_index = int(input("Enter the number of the book you want to lend: ").strip()) - 1
+                if 0 <= book_index < len(results):
+                    book_to_lend = results[book_index]
+                    if book_to_lend.quantity > 0:
+                        borrower_name = input("Enter your name for borrowing the book: ").strip()
+                        book_to_lend.quantity -= 1
+                        self.save_books()
+                        self.lend_log.append({
+                            "title": book_to_lend.title,
+                            "authors": book_to_lend.authors,
+                            "isbn": book_to_lend.isbn,
+                            "borrower": borrower_name
+                        })
+                        print(f"Book '{book_to_lend.title}' lent successfully! Remaining quantity: {book_to_lend.quantity}")
+                    else:
+                        print("Not enough books available to lend.")
+                else:
+                    print("Invalid book number.")
+            except ValueError:
+                print("Invalid input. Please enter a number.")
         else:
             print(f"No books found matching '{search_term}'.")
 
@@ -93,27 +100,24 @@ class Library:
                 title = log['title'][:20].ljust(20)
                 authors = ", ".join(log['authors'])[:23].ljust(23)
                 isbn = log['isbn'].rjust(13)
-                borrower = log['borrower'][:20].ljust(20)
-
-
+                borrower = log['borrower'][:23].ljust(23)
                 print(f"| {str(i+1).ljust(2)} | {title} | {authors} | {isbn} | {borrower} |")
-                print("+----+----------------------+-------------------------+---------------+-----------------------+")
+                print("+----+----------------------+-------------------------+---------------+-------------------------+")
 
     def return_book(self, search_term):
         matching_lent_books = [log for log in self.lend_log if search_term.lower() in log['title'].lower() or search_term in log['isbn']]
         if matching_lent_books:
             print(f"\nReturn Book Search Results for '{search_term}':")
-            print("+----+----------------------+-------------------------+---------------+-------------------------+")
-            print("| No | Title                | Authors                 | ISBN          | Borrower                |")
-            print("+----+----------------------+-------------------------+---------------+-------------------------+")
+            print("+----+----------------------+-------------------------+---------------+---------------------+")
+            print("| No | Title                | Authors                 | ISBN          | Borrower            |")
+            print("+----+----------------------+-------------------------+---------------+---------------------+")
             for i, log in enumerate(matching_lent_books):
                 title = log['title'][:20].ljust(20)
                 authors = ", ".join(log['authors'])[:23].ljust(23)
                 isbn = log['isbn'].rjust(13)
-                borrower = log['borrower'][:25].ljust(25)
+                borrower = log['borrower'][:20].ljust(20)
                 print(f"| {str(i+1).ljust(2)} | {title} | {authors} | {isbn} | {borrower} |")
-                print("+----+----------------------+-------------------------+---------------+------------------------+")
-            
+                print("+----+----------------------+-------------------------+---------------+---------------------+")
             try:
                 book_index = int(input("Enter the number of the book you want to return: ").strip()) - 1
                 if 0 <= book_index < len(matching_lent_books):
