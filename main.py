@@ -8,7 +8,8 @@ def display_menu():
     print("3. Search books by title or ISBN")
     print("4. Search books by author")
     print("5. Remove a book")
-    print("6. Exit")
+    print("6. Lend a book")
+    print("7. Exit")
 
 def add_books(library):
     title = input("Enter title: ").strip()
@@ -46,14 +47,22 @@ def remove_book(library):
     if results:
         print(f"\nSearch Results for '{search_term}':")
         library.display_books(results)
-        book_index = int(input("Enter the number of the book you want to remove: ").strip()) - 1
-        if 0 <= book_index:
-            library.remove_book(results[book_index])
-            print("Book removed successfully!")
-        else:
-            print("Invalid selection. Please try again.")
+        try:
+            book_index = int(input("Enter the number of the book you want to remove: ").strip()) - 1
+            if 0 <= book_index < len(results):
+                library.remove_book(results[book_index])
+                print("Book removed successfully!")
+            else:
+                print("Invalid book number.")
+        except ValueError:
+            print("Invalid input. Please enter a number.")
+        
     else:
         print(f"No books found matching '{search_term}'.")
+
+def lend_book(library):
+    search_term = input('Enter Book title or ISBN to lend: ').strip()
+    library.lend_book(search_term)
 
 def main():
     library = Library()
@@ -75,6 +84,8 @@ def main():
             case '5':
                 remove_book(library)
             case '6':
+                lend_book(library)
+            case '7':
                 break
             case _:
                 print("Invalid choice. Please try again.")

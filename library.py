@@ -48,30 +48,54 @@ class Library:
         self.save_books()
     
     def display_books(self, books):
-        print("+----------------------+-------------------------+----------------+------------+")
-        print("| Title                | Authors                 | ISBN           | Year       |")
-        print("+----------------------+-------------------------+----------------+------------+")
+        print("+----+----------------------+-------------------------+---------------+-------------+")
+        print("| No | Title                | Authors                 | ISBN          | Quantity    |")
+        print("+----+----------------------+-------------------------+---------------+-------------+")
 
-        for book in books:
+
+        for i, book in enumerate(books):
             if len(book.title) > 20:
-                title = (book.title[:20] + '...')
+                title = (book.title[:20])
             else:
                 title = book.title.ljust(20)
                 
             if len(", ".join(book.authors)) > 23:
-                authors = (", ".join(book.authors)[:23] + '...') 
+                authors = (", ".join(book.authors)[:23]) 
             else:
                 authors = ", ".join(book.authors).ljust(23)
 
             isbn = book.isbn.rjust(13)
-            year = str(book.publishing_year).ljust(10)
+            quantity = str(book.quantity).ljust(11)
 
-            print(f"| {title} | {authors} | {isbn} | {year} |")
-            print("+----------------------+-------------------------+----------------+------------+")
-    
+            print(f"| {str(i+1).ljust(2)} | {title} | {authors} | {isbn} | {quantity} |")
+            print("+----+----------------------+-------------------------+---------------+-------------+")
+
     def load_books(self):
         try:
             with open('books.json', 'r') as file:
                 self.books = [Book.from_dict(book) for book in json.load(file)]
         except FileNotFoundError:
             self.books = []
+
+    def lend_book(self, search_term):
+        results = self.search_books(search_term)
+        if results:
+            print(f"\nSearch Results for '{search_term}':")
+            self.display_books(results)
+            try:
+                book_index = int(input("Enter the number of the book you want to lend: ").strip()) - 1
+                if 0 <= book_index < len(results):
+                    book_to_lend = results[book_index]
+                    book_quantity = book_to_lend.quantity
+                    if book_quantity > 0:
+                        book_quantity -= 1
+                        self.save_books()
+                        print(f"Book '{book_to_lend.title}' lent successfully! Remaining quantity: {book_quantity}")
+                    else:
+                        print("Not enough books available to lend.")
+                else:
+                    print("Invalid book number.")
+            except ValueError:
+                print("Invalid input. Please enter a number.")
+        else:
+            print(f"No books found matching '{search_term}'.")
