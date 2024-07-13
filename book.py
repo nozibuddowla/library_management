@@ -7,9 +7,6 @@ class Book:
         self.price = price
         self.quantity = quantity
 
-    def __str__(self):
-        authors_str = ", ".join(self.authors)
-        return f"Title: {self.title}\nAuthors: {authors_str}\nISBN: {self.isbn}\nPublishing Year: {self.publishing_year}\nPrice: ${self.price:.2f}\nQuantity: {self.quantity}"
     
     def to_dict(self):
         return {
@@ -21,12 +18,13 @@ class Book:
             "quantity": self.quantity
         }
     
-    def from_dict(data):
+    @classmethod
+    def from_dict(cls, data):
         return Book(
-            title = data["title"],
-            authors = data["authors"],
-            isbn = data["isbn"],
-            publishing_year = data["year"],
-            price = data["price"],
-            quantity = data["quantity"]
+            data["title"],
+            data["authors"],
+            data["isbn"],
+            data["year"],
+            data["price"],
+            data["quantity"]
         )

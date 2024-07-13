@@ -10,7 +10,8 @@ def display_menu():
     print("5. Remove a book")
     print("6. Lend a book")
     print("7. View lent books")
-    print("8. Exit")
+    print("8. Return a book")
+    print("9. Exit")
 
 def add_books(library):
     title = input("Enter title: ").strip()
@@ -62,8 +63,13 @@ def remove_book(library):
         print(f"No books found matching '{search_term}'.")
 
 def lend_book(library):
+    library.view_books()
     search_term = input('Enter Book title or ISBN to lend: ').strip()
     library.lend_book(search_term)
+
+def return_book(library):
+    search_term = input('Enter Book title or ISBN to return: ').strip()
+    library.return_book(search_term)
 
 def main():
     library = Library()
@@ -89,6 +95,8 @@ def main():
             case '7':
                 library.view_lent_books()
             case '8':
+                return_book(library)
+            case '9':
                 break
             case _:
                 print("Invalid choice. Please try again.")
