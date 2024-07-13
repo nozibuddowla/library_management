@@ -9,7 +9,8 @@ def display_menu():
     print("4. Search books by author")
     print("5. Remove a book")
     print("6. Lend a book")
-    print("7. Exit")
+    print("7. View lent books")
+    print("8. Exit")
 
 def add_books(library):
     title = input("Enter title: ").strip()
@@ -86,6 +87,8 @@ def main():
             case '6':
                 lend_book(library)
             case '7':
+                library.view_lent_books()
+            case '8':
                 break
             case _:
                 print("Invalid choice. Please try again.")

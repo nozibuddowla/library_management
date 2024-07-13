@@ -4,6 +4,7 @@ from book import Book
 class Library:
     def __init__(self):
         self.books = []
+        self.lend_log = []
 
     def add_book(self, book):
         self.books.append(book)
@@ -15,7 +16,7 @@ class Library:
 
     def view_books(self):
         if not self.books:
-            print("There are no books in the library yet.")
+            print("There are no books in the library.")
             return
         else:
             print("\nList of Books:")
@@ -51,8 +52,6 @@ class Library:
         print("+----+----------------------+-------------------------+---------------+-------------+")
         print("| No | Title                | Authors                 | ISBN          | Quantity    |")
         print("+----+----------------------+-------------------------+---------------+-------------+")
-
-
         for i, book in enumerate(books):
             if len(book.title) > 20:
                 title = (book.title[:20])
@@ -86,11 +85,17 @@ class Library:
                 book_index = int(input("Enter the number of the book you want to lend: ").strip()) - 1
                 if 0 <= book_index < len(results):
                     book_to_lend = results[book_index]
-                    book_quantity = book_to_lend.quantity
-                    if book_quantity > 0:
-                        book_quantity -= 1
+                    if book_to_lend.quantity > 0:
+                        borrower_name = input("Enter your name for borrowing the book: ").strip()
+                        book_to_lend.quantity -= 1
                         self.save_books()
-                        print(f"Book '{book_to_lend.title}' lent successfully! Remaining quantity: {book_quantity}")
+                        self.lend_log.append({
+                            "title": book_to_lend.title,
+                            "authors": book_to_lend.authors,
+                            "isbn": book_to_lend.isbn,
+                            "borrower": borrower_name
+                        })
+                        print(f"Book '{book_to_lend.title}' lent successfully! Remaining quantity: {book_to_lend.quantity}")
                     else:
                         print("Not enough books available to lend.")
                 else:
@@ -99,3 +104,21 @@ class Library:
                 print("Invalid input. Please enter a number.")
         else:
             print(f"No books found matching '{search_term}'.")
+
+    def view_lent_books(self):
+        if not self.lend_log:
+            print('No books have been let out.')
+        else:
+            print(self.lend_log)
+            print("\nList of Lent Books:")
+            print("+----+----------------------+-------------------------+---------------+-------------------------+")
+            print("| No | Title                | Authors                 | ISBN          | Borrower                |")
+            print("+----+----------------------+-------------------------+---------------+-------------------------+")
+            for i, log in enumerate(self.lend_log):
+                title = log['title'].ljust(20)[:20]
+                authors = ','.join(log['authors']).ljust(23)[:23]
+                isbn = log["isbn"].rjust(13)
+                borrower = log["borrower"].ljust(23)[:23]
+
+                print(f"| {str(i+1).ljust(2)} | {title} | {authors} | {isbn} | {borrower} |")
+                print("+----+----------------------+-------------------------+---------------+-------------------------+")
