@@ -15,11 +15,38 @@ def display_menu():
 
 def add_books(library):
     title = input("Enter title: ").strip()
-    authors = input("Enter authors (comma-separated): ").strip().split(',')
+    if not title:
+        print("Title cannot be empty.")
+        return
+
+    authors = input("Enter authors (comma-separated): ").strip()
+    if not authors:
+        print("Authors cannot be empty.")
+        return
+    authors = authors.split(',')
+
     isbn = input("Enter ISBN: ").strip()
+    if not isbn:
+        print("ISBN cannot be empty.")
+        return
+
     year = input("Enter publishing year: ").strip()
-    price = float(input("Enter price: ").strip())
-    quantity = int(input("Enter quantity: ").strip())
+    if not year:
+        print("Publishing year cannot be empty.")
+        return
+
+    try:
+        price = float(input("Enter price: ").strip())
+    except ValueError:
+        print("Invalid input. Price should be a floating number.")
+        return
+
+    try:
+        quantity = int(input("Enter quantity: ").strip())
+    except ValueError:
+        print("Invalid input. Quantity should be an integer.")
+        return
+    
     book = Book(title, authors, isbn, year, price, quantity)
     library.add_book(book)
     print("Book added successfully!")
@@ -65,11 +92,26 @@ def remove_book(library):
 def lend_book(library):
     library.view_books()
     search_term = input('Enter Book title or ISBN to lend: ').strip()
-    library.lend_book(search_term)
+
+    if not search_term:
+        print("Search term cannot be empty.")
+        return
+
+    try:
+        library.lend_book(search_term)
+    except ValueError as e:
+        print(f"Error: {e}")
+    except IndexError as e:
+        print(f"Error: {e}")
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
 
 def return_book(library):
     search_term = input('Enter Book title or ISBN to return: ').strip()
-    library.return_book(search_term)
+    try:
+        library.return_book(search_term)
+    except ValueError as e:
+        print(e)
 
 def main():
     library = Library()

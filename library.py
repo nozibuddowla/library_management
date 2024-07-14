@@ -81,6 +81,9 @@ class Library:
                     book_to_lend = results[book_index]
                     if book_to_lend.quantity > 0:
                         borrower_name = input("Enter your name for borrowing the book: ").strip()
+                        if not borrower_name:
+                            raise ValueError("Borrower name cannot be empty.")
+            
                         book_to_lend.quantity -= 1
                         self.save_books()
                         self.lend_log.append({
