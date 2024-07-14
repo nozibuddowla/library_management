@@ -14,7 +14,12 @@ class Library:
         with open(filename, 'w')as file:
             json.dump([book.to_dict() for book in self.books], file)
 
+    def save_lend_log(self, filename='lend_log.json'):
+        with open(filename, 'w') as file:
+            json.dump(self.lend_log, file)
+
     def display_books(self, books):
+        print("\nList of Books:")
         print("+----+----------------------+-------------------------+---------------+-------------+")
         print("| No | Title                | Authors                 | ISBN          | Quantity    |")
         print("+----+----------------------+-------------------------+---------------+-------------+")
@@ -31,13 +36,12 @@ class Library:
             print("There are no books in the library.")
             return
         else:
-            print("\nList of Books:")
             self.display_books(self.books)
     
     def search_books(self, search_term):
         results = []
         for book in self.books:
-            if any(search_term.lower() in author.lower() for author in book.authors) or search_term in book.isbn:
+            if search_term.lower() in book.title.lower() or search_term in book.isbn:
                 results.append(book)
         return results
     
@@ -52,12 +56,19 @@ class Library:
         self.books.remove(book)
         self.save_books()
 
-    def load_books(self):
+    def load_books(self, filename='books.json'):
         try:
-            with open('books.json', 'r') as file:
+            with open(filename, 'r') as file:
                 self.books = [Book.from_dict(book) for book in json.load(file)]
         except FileNotFoundError:
             self.books = []
+
+    def load_lend_log(self, filename='lend_log.json'):
+        try:
+            with open(filename, 'r') as file:
+                self.lend_log = json.load(file)
+        except FileNotFoundError:
+            self.lend_log = []
 
     def lend_book(self, search_term):
         results = self.search_books(search_term)
@@ -78,6 +89,7 @@ class Library:
                             "isbn": book_to_lend.isbn,
                             "borrower": borrower_name
                         })
+                        self.save_lend_log()
                         print(f"Book '{book_to_lend.title}' lent successfully! Remaining quantity: {book_to_lend.quantity}")
                     else:
                         print("Not enough books available to lend.")
@@ -127,8 +139,18 @@ class Library:
                             book.quantity += 1
                             self.lend_log.remove(selected_book)
                             self.save_books()
+                            self.save_lend_log()
                             print(f"Book '{book.title}' returned successfully! Current quantity: {book.quantity}")
                             break
+                        else:
+                            print("The book is not found in the library, adding it back.")
+                            returned_book = Book.from_dict(selected_book)
+                            returned_book.quantity = 1
+                            self.books.append(returned_book)
+                            self.lend_log.remove(selected_book)
+                            self.save_books()
+                            self.save_lend_log()
+                            print(f"Book '{returned_book.title}' returned successfully!")
                 else:
                     print("Invalid book number.")
             except ValueError:

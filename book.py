@@ -13,18 +13,18 @@ class Book:
             "title": self.title,
             "authors": self.authors,
             "isbn": self.isbn,
-            "year": self.publishing_year,
+            "publishing_year": self.publishing_year,
             "price": self.price,
             "quantity": self.quantity
         }
     
     @classmethod
     def from_dict(cls, data):
-        return Book(
-            data["title"],
-            data["authors"],
-            data["isbn"],
-            data["year"],
-            data["price"],
-            data["quantity"]
+        return cls(
+            title=data['title'],
+            authors=data['authors'],
+            isbn=data['isbn'],
+            publishing_year=data["publishing_year"],
+            price=data['price'],
+            quantity=data['quantity']
         )

@@ -44,6 +44,7 @@ def search_books_by_author(library):
         print(f"No books found matching author '{search_term}'.")
 
 def remove_book(library):
+    library.view_books()
     search_term =  input('Enter Book title or ISBN to remove: ').strip()
     results = library.search_books(search_term)
     if results:
@@ -58,7 +59,6 @@ def remove_book(library):
                 print("Invalid book number.")
         except ValueError:
             print("Invalid input. Please enter a number.")
-        
     else:
         print(f"No books found matching '{search_term}'.")
 
@@ -74,6 +74,7 @@ def return_book(library):
 def main():
     library = Library()
     library.load_books()
+    library.load_lend_log()
 
     while True:
         display_menu()
