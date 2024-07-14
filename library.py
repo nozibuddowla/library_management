@@ -137,23 +137,14 @@ class Library:
                 book_index = int(input("Enter the number of the book you want to return: ").strip()) - 1
                 if 0 <= book_index < len(matching_lent_books):
                     selected_book = matching_lent_books[book_index]
+                    self.lend_log.remove(selected_book)
+                    self.save_lend_log()
                     for book in self.books:
-                        if book.isbn == selected_book['isbn']:
+                        if book.title == selected_book['title'] and book.isbn == selected_book['isbn']:
                             book.quantity += 1
-                            self.lend_log.remove(selected_book)
                             self.save_books()
-                            self.save_lend_log()
-                            print(f"Book '{book.title}' returned successfully! Current quantity: {book.quantity}")
                             break
-                        else:
-                            print("The book is not found in the library, adding it back.")
-                            returned_book = Book.from_dict(selected_book)
-                            returned_book.quantity = 1
-                            self.books.append(returned_book)
-                            self.lend_log.remove(selected_book)
-                            self.save_books()
-                            self.save_lend_log()
-                            print(f"Book '{returned_book.title}' returned successfully!")
+                    print(f"Book '{selected_book['title']}' returned successfully! Current quantity: {book.quantity}")
                 else:
                     print("Invalid book number.")
             except ValueError:

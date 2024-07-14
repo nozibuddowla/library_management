@@ -13,27 +13,29 @@ def display_menu():
     print("8. Return a book")
     print("9. Exit")
 
+def get_input(prompt, required=True):
+    while True:
+        value = input(prompt).strip()
+        if not value and required:
+            print("This field cannot be empty.")
+        else:
+            return value
+
+def get_int_input(prompt):
+    while True:
+        try:
+            return int(get_input(prompt))
+        except ValueError:
+            print("Invalid input. Please enter an integer.")
+
 def add_books(library):
-    title = input("Enter title: ").strip()
-    if not title:
-        print("Title cannot be empty.")
-        return
+    title = get_input("Enter title: ")
 
-    authors = input("Enter authors (comma-separated): ").strip()
-    if not authors:
-        print("Authors cannot be empty.")
-        return
-    authors = authors.split(',')
+    authors = get_input("Enter authors (comma-separated): ").split(',')
 
-    isbn = input("Enter ISBN: ").strip()
-    if not isbn:
-        print("ISBN cannot be empty.")
-        return
+    isbn = get_input("Enter ISBN: ")
 
-    year = input("Enter publishing year: ").strip()
-    if not year:
-        print("Publishing year cannot be empty.")
-        return
+    year = get_input("Enter publishing year: ")
 
     try:
         price = float(input("Enter price: ").strip())
@@ -41,18 +43,14 @@ def add_books(library):
         print("Invalid input. Price should be a floating number.")
         return
 
-    try:
-        quantity = int(input("Enter quantity: ").strip())
-    except ValueError:
-        print("Invalid input. Quantity should be an integer.")
-        return
+    quantity = get_int_input("Enter quantity: ")
     
     book = Book(title, authors, isbn, year, price, quantity)
     library.add_book(book)
     print("Book added successfully!")
 
 def search_books(library):
-    search_term = input('Enter Book title or ISBN to search: ').strip()
+    search_term = get_input('Enter Book title or ISBN to search: ', required=False)
     results = library.search_books(search_term)
     if results:
         print(f"\nSearch Results for '{search_term}':")
@@ -72,13 +70,13 @@ def search_books_by_author(library):
 
 def remove_book(library):
     library.view_books()
-    search_term =  input('Enter Book title or ISBN to remove: ').strip()
+    search_term = get_input('Enter Book title or ISBN to remove: ', required=False)
     results = library.search_books(search_term)
     if results:
         print(f"\nSearch Results for '{search_term}':")
         library.display_books(results)
         try:
-            book_index = int(input("Enter the number of the book you want to remove: ").strip()) - 1
+            book_index = get_int_input("Enter the number of the book you want to remove: ") - 1
             if 0 <= book_index < len(results):
                 library.remove_book(results[book_index])
                 print("Book removed successfully!")
@@ -91,7 +89,7 @@ def remove_book(library):
 
 def lend_book(library):
     library.view_books()
-    search_term = input('Enter Book title or ISBN to lend: ').strip()
+    search_term = get_input('Enter Book title or ISBN to lend: ', required=False)
 
     if not search_term:
         print("Search term cannot be empty.")
@@ -107,7 +105,18 @@ def lend_book(library):
         print(f"An unexpected error occurred: {e}")
 
 def return_book(library):
-    search_term = input('Enter Book title or ISBN to return: ').strip()
+    print("+----+----------------------+-------------------------+---------------+---------------------+")
+    print("| No | Title                | Authors                 | ISBN          | Borrower            |")
+    print("+----+----------------------+-------------------------+---------------+---------------------+")
+    for i, log in enumerate(library.lend_log):
+        title = log['title'][:20].ljust(20)
+        authors = ", ".join(log['authors'])[:23].ljust(23)
+        isbn = log['isbn'].rjust(13)
+        borrower = log['borrower'][:20].ljust(20)
+        print(f"| {str(i+1).ljust(2)} | {title} | {authors} | {isbn} | {borrower} |")
+        print("+----+----------------------+-------------------------+---------------+---------------------+")
+    search_term = get_input('Enter Book title or ISBN to return: ', required=False)
+    
     try:
         library.return_book(search_term)
     except ValueError as e:
@@ -143,7 +152,6 @@ def main():
                 break
             case _:
                 print("Invalid choice. Please try again.")
-
 
 if __name__ == '__main__':
     main()
