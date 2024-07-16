@@ -105,7 +105,6 @@ def lend_book(library):
         print(f"An unexpected error occurred: {e}")
 
 def return_book(library):
-    print(f"\nReturn Book Search Results for '{search_term}':")
     print("+----+----------------------+-------------------------+---------------+-------------------------+---------------------+")
     print("| No | Title                | Authors                 | ISBN          | Borrower                | Contact             |")
     print("+----+----------------------+-------------------------+---------------+-------------------------+---------------------+")
