@@ -81,16 +81,19 @@ class Library:
                     book_to_lend = results[book_index]
                     if book_to_lend.quantity > 0:
                         borrower_name = input("Enter your name for borrowing the book: ").strip()
+                        borrower_contact = input("Enter your contact number: ").strip()
                         if not borrower_name:
                             raise ValueError("Borrower name cannot be empty.")
-            
+                        if not borrower_contact:
+                            raise ValueError("Borrower contact number cannot be empty.")
                         book_to_lend.quantity -= 1
                         self.save_books()
                         self.lend_log.append({
                             "title": book_to_lend.title,
                             "authors": book_to_lend.authors,
                             "isbn": book_to_lend.isbn,
-                            "borrower": borrower_name
+                            "borrower": borrower_name,
+                            "contact": borrower_contact
                         })
                         self.save_lend_log()
                         print(f"Book '{book_to_lend.title}' lent successfully! Remaining quantity: {book_to_lend.quantity}")
@@ -108,43 +111,50 @@ class Library:
             print('No books have been let out.')
         else:
             print("\nList of Lent Books:")
-            print("+----+----------------------+-------------------------+---------------+-------------------------+")
-            print("| No | Title                | Authors                 | ISBN          | Borrower                |")
-            print("+----+----------------------+-------------------------+---------------+-------------------------+")
+            print("+----+----------------------+-------------------------+---------------+-------------------------+---------------------+")
+            print("| No | Title                | Authors                 | ISBN          | Borrower                | Contact             |")
+            print("+----+----------------------+-------------------------+---------------+-------------------------+---------------------+")
             for i, log in enumerate(self.lend_log):
                 title = log['title'][:20].ljust(20)
                 authors = ", ".join(log['authors'])[:23].ljust(23)
                 isbn = log['isbn'].rjust(13)
                 borrower = log['borrower'][:23].ljust(23)
-                print(f"| {str(i+1).ljust(2)} | {title} | {authors} | {isbn} | {borrower} |")
-                print("+----+----------------------+-------------------------+---------------+-------------------------+")
+                contact = log['contact'][:20].ljust(20)
+                print(f"| {str(i+1).ljust(2)} | {title} | {authors} | {isbn} | {borrower} | {contact} |")
+                print("+----+----------------------+-------------------------+---------------+-------------------------+---------------------+")
 
     def return_book(self, search_term):
         matching_lent_books = [log for log in self.lend_log if search_term.lower() in log['title'].lower() or search_term in log['isbn']]
         if matching_lent_books:
             print(f"\nReturn Book Search Results for '{search_term}':")
-            print("+----+----------------------+-------------------------+---------------+---------------------+")
-            print("| No | Title                | Authors                 | ISBN          | Borrower            |")
-            print("+----+----------------------+-------------------------+---------------+---------------------+")
+            print("+----+----------------------+-------------------------+---------------+-------------------------+---------------------+")
+            print("| No | Title                | Authors                 | ISBN          | Borrower                | Contact             |")
+            print("+----+----------------------+-------------------------+---------------+-------------------------+---------------------+")
             for i, log in enumerate(matching_lent_books):
                 title = log['title'][:20].ljust(20)
                 authors = ", ".join(log['authors'])[:23].ljust(23)
                 isbn = log['isbn'].rjust(13)
                 borrower = log['borrower'][:20].ljust(20)
-                print(f"| {str(i+1).ljust(2)} | {title} | {authors} | {isbn} | {borrower} |")
-                print("+----+----------------------+-------------------------+---------------+---------------------+")
+                contact = log['contact'][:20].ljust(20)
+                print(f"| {str(i+1).ljust(2)} | {title} | {authors} | {isbn} | {borrower} | {contact} |")
+                print("+----+----------------------+-------------------------+---------------+-------------------------+---------------------+")
             try:
                 book_index = int(input("Enter the number of the book you want to return: ").strip()) - 1
                 if 0 <= book_index < len(matching_lent_books):
                     selected_book = matching_lent_books[book_index]
-                    self.lend_log.remove(selected_book)
-                    self.save_lend_log()
-                    for book in self.books:
-                        if book.title == selected_book['title'] and book.isbn == selected_book['isbn']:
-                            book.quantity += 1
-                            self.save_books()
-                            break
-                    print(f"Book '{selected_book['title']}' returned successfully! Current quantity: {book.quantity}")
+                    returnee_name = input("Enter your name for returning the book: ").strip()
+                    returnee_contact = input("Enter your contact number: ").strip()
+                    if returnee_name == selected_book['borrower'] and returnee_contact == selected_book['contact']:
+                        self.lend_log.remove(selected_book)
+                        self.save_lend_log()
+                        for book in self.books:
+                            if book.title == selected_book['title'] and book.isbn == selected_book['isbn']:
+                                book.quantity += 1
+                                self.save_books()
+                                break
+                        print(f"Book '{selected_book['title']}' returned successfully! Current quantity: {book.quantity}")
+                    else:
+                        print("Returnee information does not match the borrower's information.")
                 else:
                     print("Invalid book number.")
             except ValueError:

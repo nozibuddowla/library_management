@@ -105,16 +105,18 @@ def lend_book(library):
         print(f"An unexpected error occurred: {e}")
 
 def return_book(library):
-    print("+----+----------------------+-------------------------+---------------+---------------------+")
-    print("| No | Title                | Authors                 | ISBN          | Borrower            |")
-    print("+----+----------------------+-------------------------+---------------+---------------------+")
+    print(f"\nReturn Book Search Results for '{search_term}':")
+    print("+----+----------------------+-------------------------+---------------+-------------------------+---------------------+")
+    print("| No | Title                | Authors                 | ISBN          | Borrower                | Contact             |")
+    print("+----+----------------------+-------------------------+---------------+-------------------------+---------------------+")
     for i, log in enumerate(library.lend_log):
         title = log['title'][:20].ljust(20)
         authors = ", ".join(log['authors'])[:23].ljust(23)
         isbn = log['isbn'].rjust(13)
         borrower = log['borrower'][:20].ljust(20)
-        print(f"| {str(i+1).ljust(2)} | {title} | {authors} | {isbn} | {borrower} |")
-        print("+----+----------------------+-------------------------+---------------+---------------------+")
+        contact = log['contact'][:20].ljust(20)
+        print(f"| {str(i+1).ljust(2)} | {title} | {authors} | {isbn} | {borrower} | {contact} |")
+        print("+----+----------------------+-------------------------+---------------+-------------------------+---------------------+")
     search_term = get_input('Enter Book title or ISBN to return: ', required=False)
     
     try:
@@ -149,9 +151,10 @@ def main():
             case '8':
                 return_book(library)
             case '9':
+                print("Exiting the program.")
                 break
             case _:
-                print("Invalid choice. Please try again.")
+                print("Invalid choice. Please enter a number between 1 and 9.")
 
 if __name__ == '__main__':
     main()
