@@ -14,18 +14,11 @@ A Python-based Library Management System that allows you to add, view, search, l
 
 ## Installation
 
-1. **Clone the repository**:
+**Clone the repository**:
     ```sh
     git clone https://github.com/yourusername/library-management-system.git
     cd library-management-system
     ```
-
-2. **Install required packages**:
-    ```sh
-    pip install -r requirements.txt
-    ```
-
-    Note: For this basic version, there are no external packages required. If you plan to extend the functionality, you might need to update the `requirements.txt` accordingly.
 
 ## Usage
 
